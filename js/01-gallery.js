@@ -5,7 +5,7 @@ console.log(galleryItems);
 
 const gallery = document.querySelector('.gallery');
 
-// gallery.addEventListener('click');
+gallery.addEventListener('click', onZoomImage);
 
 const galleryEl = galleryItems
   .map(
@@ -23,26 +23,16 @@ const galleryEl = galleryItems
 
 gallery.insertAdjacentHTML('beforeend', galleryEl);
 
-// const gallery = document.querySelector('.gallery');
-// gallery.addEventListener('click', zoomImage);
+function onZoomImage(e) {
+  e.preventDefault();
+  if (e.target.nodeName !== 'IMG') {
+    return;
+  }
+  console.log(e.target.dataset.source);
 
-// const galleryEl = galleryItems
-//   .map(
-//     ({ description, original, preview }) =>
-//       `<li class = "gallery__item"><a class="gallery__link" href="${original}"><img class = "gallery__image" src="${preview}" data-source="${original}" alt="${description}"></a></li>`
-//   )
-//   .join('');
+  const instance = basicLightbox.create(`
+    <img src="${e.target.dataset.source}">
+`);
 
-// gallery.insertAdjacentHTML('beforeend', galleryEl);
-
-// function zoomImage(event) {
-//   event.preventDefault();
-//   if (event.target.nodeName !== 'IMG') {
-//     return;
-//   }
-//   console.log(event.target.dataset.source);
-
-//   const instance = basicLightbox.create(`
-//     <img src="${event.target.dataset.source}">`);
-//   instance.show();
-// }
+  instance.show();
+}
